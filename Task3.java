@@ -4,28 +4,19 @@ public class Task3 {
  * 3. Сравнить время выполнения замены символа "а" на "А" любой строки содержащей >1000 символов средствами String и StringBuilder. *Дана строка: ".3 + 1.56 = " подсчитать результат и добавить к строке.
  *
 */
-    public static void main(String[] args) {
-        String s = ".3 + 1.56 = ";
-        long startTime = System.nanoTime(); //замер времени для String
-        s = s.replaceAll("a", "A");
-        double result = 1.86;
-        s += result;
-        long endTime = System.nanoTime();
-        long durationString = (endTime - startTime);
 
-        StringBuilder sb = new StringBuilder(".3 + 1.56 = ");
-        startTime = System.nanoTime(); //замер времени для StringBuilder
-        sb = sb.append(result);
-        int aIndex = sb.indexOf("a");
-        if (aIndex != -1) {
-            sb.replace(aIndex, aIndex + 1, "A");
+ public static void main(String[] args) {
+    String str = "a".repeat(111000);
+    StringBuilder stringBuilder = new StringBuilder(str);
+    
+    long start = System.currentTimeMillis();
+    str = str.replace("a", "A");
+    System.out.println("time String = " + (System.currentTimeMillis() - start));
+    start = System.currentTimeMillis();
+    for (int i = 0; i < stringBuilder.length(); i++) {
+        stringBuilder.setCharAt(i, 'A');
         }
-        endTime = System.nanoTime();
-        long durationStringBuilder = (endTime - startTime);
-
-        System.out.println("String duration: " + durationString);
-        System.out.println("StringBuilder duration: " + durationStringBuilder);
+        System.out.println("time StringBuilder = " + (System.currentTimeMillis() - start));
     }
 }
-    
 

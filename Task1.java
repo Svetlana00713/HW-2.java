@@ -1,38 +1,32 @@
+// * Задание 1. 
+// * 1. Дана строка sql-запроса ""select * from students where "". Сформируйте часть WHERE этого запроса, используя StringBuilder. Данные для фильтрации приведены ниже в виде json строки.
+//Если значение null, то параметр не должен попадать в запрос.
+//Параметры для фильтрации: {""name"":""Ivanov"", ""country"":""Russia"", ""city"":""Moscow"", ""age"":""null""}
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Task1 {
-    /*
- * Задание 1. 
- * 1. Дана строка sql-запроса ""select * from students where "". Сформируйте часть WHERE этого запроса, используя StringBuilder. Данные для фильтрации приведены ниже в виде json строки.
-        Если значение null, то параметр не должен попадать в запрос.
-        Параметры для фильтрации: {""name"":""Ivanov"", ""country"":""Russia"", ""city"":""Moscow"", ""age"":""null""}
- *
-*/
     public static void main(String[] args) {
-        String sqlQuery = "SELECT * FROM students WHERE ";
-        String filters = "{\"name\":\"Ivanov\", \"country\":\"Russia\", \"city\":\"Moscow\", \"age\":null}";
-        StringBuilder whereClause = new StringBuilder();
-
-        String[] filterPairs = filters.replaceAll("[{}\"]", "").split(",");
-        for (String pair : filterPairs) {
-            String[] keyValue = pair.split(":");
-            String key = keyValue[0].trim();
-            String value = keyValue[1].trim();
-
-            if (!value.equalsIgnoreCase("null")) {
-                if (whereClause.length() > 0) {
-                    whereClause.append(" AND ");
-                }
-                whereClause.append(key).append("='").append(value).append("'");
+        Map<String, String> params1 = new HashMap<String,String>();
+        params1.put("name","Ivanov");
+        params1.put("country","Russia");
+        params1.put("city","Moskow");
+        params1.put("age",null);
+        System.out.println(getQuery(params1));
+    }
+    public static String getQuery(Map<String, String> params)
+    {
+        StringBuilder s = new StringBuilder();
+        for (Map.Entry<String,String> pair : params.entrySet())
+        {
+            if (pair.getValue() != null)
+            {
+                s.append(pair.getKey() +" : '" + pair.getValue()+"' ; ");
             }
         }
-
-        if (whereClause.length() == 0) {
-            sqlQuery += "1=1;";
-        } else {
-            sqlQuery += whereClause.toString() + ";";
-        }
-
-        System.out.println(sqlQuery);
+        s.delete(s.toString().length()-4,s.toString().length());
+        return s.toString();
     }
 }
-    
 

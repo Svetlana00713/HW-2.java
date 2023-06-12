@@ -1,3 +1,7 @@
+package src.main.java;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
@@ -5,17 +9,16 @@ public class Task2 {
     public static void main(String[] args) {
         printJson();
     }
-
-    public static <ObjectMapper, JsonNode, JsonNode> void printJson(){
+    public static void printJson(){
         File jsonFilePath = new File("src/main/resources/json1.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            JsonNode jsonNode = ((Object) objectMapper).readTree(jsonFilePath);
+            JsonNode jsonNode = objectMapper.readTree(jsonFilePath);
             StringBuilder stringBuilder = new StringBuilder();
             for (JsonNode studentNode: jsonNode) {
-                String lastname = ((Object) studentNode).get("фамилия").asText();
-                String feedback = ((Object) studentNode).get("оценка").asText();
-                String subject  = ((Object) studentNode).get("предмет").asText();
+                String lastname = studentNode.get("фамилия").asText();
+                String feedback = studentNode.get("оценка").asText();
+                String subject  = studentNode.get("предмет").asText();
 
                 stringBuilder
                         .append("Студент [")
